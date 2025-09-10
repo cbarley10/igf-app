@@ -95,18 +95,21 @@ app.post('/api/auth', (req, res) => {
 // 2. Random user data endpoint
 app.get('/api/users/random', (req, res) => {
   console.log('Random users');
-  const count = parseInt(req.query.count) || 1;
-  const maxCount = Math.min(count, 10); // Limit to 10 users max
+  const user = generateRandomUser();
   
-  const users = [];
-  for (let i = 0; i < maxCount; i++) {
-    users.push(generateRandomUser());
+  if(!user) {
+    return res.status(404).json({
+      success: false,
+      message: 'No user found',
+      count: 0,
+      user: null
+    });
   }
-  
-  res.json({
+  return res.status(200).json({
     success: true,
-    count: users.length,
-    users
+    message: 'User found',
+    count: 1,
+    user
   });
 });
 
