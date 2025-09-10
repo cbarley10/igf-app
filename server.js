@@ -64,11 +64,13 @@ const generateRandomUser = () => {
 
 // Routes
 app.get('/', (req, res) => {
+  console.log('Home');
   res.send('Hello from IGF App');
 });
 
 // 1. Authentication endpoint
 app.post('/api/auth', (req, res) => {
+  console.log('Authentication');
   const { username, password } = req.body;
   
   // Simple mock authentication - accepts any username/password
@@ -92,6 +94,7 @@ app.post('/api/auth', (req, res) => {
 
 // 2. Random user data endpoint
 app.get('/api/users/random', (req, res) => {
+  console.log('Random users');
   const count = parseInt(req.query.count) || 1;
   const maxCount = Math.min(count, 10); // Limit to 10 users max
   
@@ -109,6 +112,7 @@ app.get('/api/users/random', (req, res) => {
 
 // 3. Random Pokemon endpoint
 app.get('/api/pokemon/random', (req, res) => {
+  console.log('Random Pokemon');
   const count = parseInt(req.query.count) || 1;
   const maxCount = Math.min(count, 5); // Limit to 5 Pokemon max
   
@@ -126,6 +130,7 @@ app.get('/api/pokemon/random', (req, res) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  console.log('Health check');
   res.json({
     success: true,
     message: 'Server is running',
@@ -136,6 +141,7 @@ app.get('/api/health', (req, res) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Home: http://localhost:${PORT}/`);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
   console.log(`Authentication: POST http://localhost:${PORT}/api/auth`);
   console.log(`Random users: GET http://localhost:${PORT}/api/users/random`);
