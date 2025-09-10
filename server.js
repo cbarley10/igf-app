@@ -116,17 +116,20 @@ app.get('/api/users/random', (req, res) => {
 // 3. Random Pokemon endpoint
 app.get('/api/pokemon/random', (req, res) => {
   console.log('Random Pokemon');
-  const count = parseInt(req.query.count) || 1;
-  const maxCount = Math.min(count, 5); // Limit to 5 Pokemon max
+  const pokemon = getRandomItem(pokemonList);
   
-  const pokemon = [];
-  for (let i = 0; i < maxCount; i++) {
-    pokemon.push(getRandomItem(pokemonList));
+  if(!pokemon) {
+    return res.status(404).json({
+      success: false,
+      message: 'No Pokemon found',
+      count: 0,
+      pokemon: null
+    });
   }
-  
-  res.json({
+  return res.status(200).json({
     success: true,
-    count: pokemon.length,
+    message: 'Pokemon found',
+    count: 1,
     pokemon
   });
 });
