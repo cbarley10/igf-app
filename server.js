@@ -63,6 +63,9 @@ const generateRandomUser = () => {
 };
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('Hello from IGF App');
+});
 
 // 1. Authentication endpoint
 app.post('/api/auth', (req, res) => {
