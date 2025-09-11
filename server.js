@@ -78,7 +78,7 @@ app.post('/api/auth', (req, res) => {
   
   // Simple mock authentication - accepts any username/password
   if (username && password) {
-    res.json({
+    res.status(200).json({
       success: true,
       message: 'Authentication successful',
       token: 'mock-jwt-token-' + Date.now(),
@@ -90,7 +90,9 @@ app.post('/api/auth', (req, res) => {
   } else {
     res.status(400).json({
       success: false,
-      message: 'Username and password are required'
+      message: 'Username and password are required',
+      token: null,
+      user: null
     });
   }
 });
