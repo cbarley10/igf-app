@@ -14,16 +14,21 @@ app.use(express.static('public'));
 
 // Sample data for fake users
 const sampleUsers = [
-  { id: 1, name: 'Alice Johnson', email: 'alice@example.com', age: 28, city: 'New York' },
-  { id: 2, name: 'Bob Smith', email: 'bob@example.com', age: 34, city: 'Los Angeles' },
-  { id: 3, name: 'Carol Davis', email: 'carol@example.com', age: 25, city: 'Chicago' },
-  { id: 4, name: 'David Wilson', email: 'david@example.com', age: 42, city: 'Houston' },
-  { id: 5, name: 'Eva Brown', email: 'eva@example.com', age: 31, city: 'Phoenix' },
-  { id: 6, name: 'Frank Miller', email: 'frank@example.com', age: 29, city: 'Philadelphia' },
-  { id: 7, name: 'Grace Lee', email: 'grace@example.com', age: 26, city: 'San Antonio' },
-  { id: 8, name: 'Henry Taylor', email: 'henry@example.com', age: 38, city: 'San Diego' },
-  { id: 9, name: 'Ivy Anderson', email: 'ivy@example.com', age: 33, city: 'Dallas' },
-  { id: 10, name: 'Jack Thomas', email: 'jack@example.com', age: 27, city: 'San Jose' }
+  { name: 'Alice Johnson', email: 'alice@example.com', age: 28, city: 'New York', favoritePokemon: 2 },
+  { name: 'Bob Smith', email: 'bob@example.com', age: 34, city: 'Los Angeles', favoritePokemon: 1 },
+  { name: 'Carol Davis', email: 'carol@example.com', age: 25, city: 'Chicago', favoritePokemon: 3 },
+  { name: 'David Wilson', email: 'david@example.com', age: 42, city: 'Houston', favoritePokemon: 4 },
+  { name: 'Eva Brown', email: 'eva@example.com', age: 31, city: 'Phoenix', favoritePokemon: 5 },
+  { name: 'Frank Miller', email: 'frank@example.com', age: 29, city: 'Philadelphia', favoritePokemon: 5 },
+  { name: 'Grace Lee', email: 'grace@example.com', age: 26, city: 'San Antonio', favoritePokemon: 6 },
+  { name: 'Henry Taylor', email: 'henry@example.com', age: 38, city: 'San Diego', favoritePokemon: 7 },
+  { name: 'Ivy Anderson', email: 'ivy@example.com', age: 33, city: 'Dallas', favoritePokemon: 8 },
+  { name: 'Jack Thomas', email: 'jack@example.com', age: 27, city: 'San Jose', favoritePokemon: 9 },
+  { name: 'Kyle Johnson', email: 'kyle@example.com', age: 30, city: 'Seattle', favoritePokemon: 10 },
+  { name: 'Liam Davis', email: 'liam@example.com', age: 35, city: 'Miami', favoritePokemon: 10 },
+  { name: 'Mia Wilson', email: 'mia@example.com', age: 27, city: 'Boston', favoritePokemon: 1 },
+  { name: 'Noah Smith', email: 'noah@example.com', age: 32, city: 'San Francisco', favoritePokemon: 10 },
+  { name: 'Olivia Brown', email: 'olivia@example.com', age: 29, city: 'Austin', favoritePokemon: 10 }
 ];
 
 // Sample Pokemon data
@@ -47,21 +52,16 @@ const getRandomItem = (array) => {
 
 // Helper function to generate random user data
 const generateRandomUser = () => {
-  const names = ['Alex', 'Jordan', 'Taylor', 'Casey', 'Morgan', 'Riley', 'Avery', 'Quinn', 'Sage', 'River'];
-  const surnames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez'];
-  const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'];
-  
-  const name = `${getRandomItem(names)} ${getRandomItem(surnames)}`;
-  const email = `${name.toLowerCase().replace(' ', '.')}@example.com`;
-  const age = Math.floor(Math.random() * 50) + 18; // Age between 18-67
-  const city = getRandomItem(cities);
+  const user = getRandomItem(sampleUsers);
+  const { name, email, age, city, favoritePokemon } = user;
   
   return {
     id: Math.floor(Math.random() * 10000) + 1,
     name,
     email,
     age,
-    city
+    city,
+    favoritePokemon
   };
 };
 
