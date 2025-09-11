@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGF App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="igf-demo.svg" alt="IGF Logo" class="logo">
+            <h1>IGF Demo App</h1>
+        </header>
+
+        <main>
+            <div class="button-container">
+                <button id="getUserBtn" class="btn btn-primary">Get Random User</button>
+                <button id="getPokemonBtn" class="btn btn-secondary">Get Random Pokemon</button>
+                <button id="getBothBtn" class="btn btn-accent">Get Both</button>
+            </div>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Loading...</p>
+            </div>
+
+            <div id="results" class="results hidden">
+                <h2>Results</h2>
+                <pre id="output"></pre>
+            </div>
+
+            <div id="error" class="error hidden">
+                <h3>Error</h3>
+                <p id="errorMessage"></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

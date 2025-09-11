@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from public directory
+app.use(express.static('public'));
+
 // Sample data for fake users
 const sampleUsers = [
   { id: 1, name: 'Alice Johnson', email: 'alice@example.com', age: 28, city: 'New York' },
