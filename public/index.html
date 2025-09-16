@@ -20,6 +20,29 @@
                 <button id="getBothBtn" class="btn btn-accent">Get Both</button>
             </div>
 
+            <!-- Webhook sections for Get Random User and Get Both -->
+            <div id="userWebhookSection" class="webhook-section hidden">
+                <div class="webhook-container">
+                    <h3>Send User Data to Webhook</h3>
+                    <div class="webhook-input-group">
+                        <input type="url" id="userWebhookUrl" placeholder="Enter webhook URL (e.g., https://your-webhook.com/endpoint)" class="webhook-input">
+                        <button id="sendUserWebhookBtn" class="btn btn-webhook">Send to Webhook</button>
+                    </div>
+                    <div id="userWebhookStatus" class="webhook-status hidden"></div>
+                </div>
+            </div>
+
+            <div id="bothWebhookSection" class="webhook-section hidden">
+                <div class="webhook-container">
+                    <h3>Send Both Data to Webhook</h3>
+                    <div class="webhook-input-group">
+                        <input type="url" id="bothWebhookUrl" placeholder="Enter webhook URL (e.g., https://your-webhook.com/endpoint)" class="webhook-input">
+                        <button id="sendBothWebhookBtn" class="btn btn-webhook">Send to Webhook</button>
+                    </div>
+                    <div id="bothWebhookStatus" class="webhook-status hidden"></div>
+                </div>
+            </div>
+
             <div id="loading" class="loading hidden">
                 <div class="spinner"></div>
                 <p>Loading...</p>

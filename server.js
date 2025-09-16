@@ -139,6 +139,69 @@ app.get('/api/pokemon/random', (req, res) => {
   });
 });
 
+// Webhook proxy endpoint
+app.post('/api/webhook', async (req, res) => {
+  console.log('Webhook proxy request');
+  const { url, payload } = req.body;
+  
+  if (!url || !payload) {
+    return res.status(400).json({
+      success: false,
+      message: 'URL and payload are required',
+      error: 'Missing required fields'
+    });
+  }
+  
+  // Validate URL
+  try {
+    new URL(url);
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      throw new Error('Invalid protocol');
+    }
+  } catch (err) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid webhook URL',
+      error: 'URL must be a valid http:// or https:// URL'
+    });
+  }
+  
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'IGF-App-Webhook-Proxy/1.0'
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeoutId);
+    
+    const responseText = await response.text();
+    
+    res.status(200).json({
+      success: true,
+      message: 'Webhook sent successfully',
+      status: response.status,
+      statusText: response.statusText,
+      response: responseText
+    });
+    
+  } catch (err) {
+    console.error('Webhook error:', err);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send webhook',
+      error: err.message
+    });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   console.log('Health check');
@@ -157,6 +220,7 @@ app.listen(PORT, () => {
   console.log(`Authentication: POST http://localhost:${PORT}/api/auth`);
   console.log(`Random users: GET http://localhost:${PORT}/api/users/random`);
   console.log(`Random Pokemon: GET http://localhost:${PORT}/api/pokemon/random`);
+  console.log(`Webhook proxy: POST http://localhost:${PORT}/api/webhook`);
 });
 
 module.exports = app;
