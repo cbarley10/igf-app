@@ -142,13 +142,15 @@ app.get('/api/pokemon/random', (req, res) => {
 // Webhook proxy endpoint
 app.post('/api/webhook', async (req, res) => {
   console.log('Webhook proxy request');
-  const { url, payload } = req.body;
+  const { url, payload, eventType } = req.body;
   
   if (!url || !payload) {
     return res.status(400).json({
       success: false,
       message: 'URL and payload are required',
-      error: 'Missing required fields'
+      status: 400,
+      statusText: 'Bad Request',
+      response: 'Missing required fields'
     });
   }
   
@@ -162,7 +164,9 @@ app.post('/api/webhook', async (req, res) => {
     return res.status(400).json({
       success: false,
       message: 'Invalid webhook URL',
-      error: 'URL must be a valid http:// or https:// URL'
+      status: 400,
+      statusText: 'Bad Request',
+      response: 'URL must be a valid http:// or https:// URL'
     });
   }
   
@@ -170,13 +174,22 @@ app.post('/api/webhook', async (req, res) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
     
+    // Add metadata to the payload
+    const enrichedPayload = {
+      ...payload,
+      metadata: {
+        event: eventType || 'unknown',
+        time: new Date().toISOString()
+      }
+    };
+    
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'IGF-App-Webhook-Proxy/1.0'
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(enrichedPayload),
       signal: controller.signal
     });
     
@@ -197,7 +210,9 @@ app.post('/api/webhook', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to send webhook',
-      error: err.message
+      status: 500,
+      statusText: 'Internal Server Error',
+      response: err.message
     });
   }
 });

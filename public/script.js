@@ -67,14 +67,14 @@ function validateWebhookUrl(url) {
     }
 }
 
-async function sendWebhook(url, payload) {
+async function sendWebhook(url, payload, eventType) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/webhook`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ url, payload })
+            body: JSON.stringify({ url, payload, eventType })
         });
         
         if (!response.ok) {
@@ -193,7 +193,7 @@ sendUserWebhookBtn.addEventListener('click', async () => {
     showWebhookStatus(userWebhookStatus, 'Sending to webhook...', 'loading');
     
     try {
-        const result = await sendWebhook(url, currentData);
+        const result = await sendWebhook(url, currentData, 'random_user');
         showWebhookStatus(userWebhookStatus, `Successfully sent to webhook! Status: ${result.status}`, 'success');
     } catch (err) {
         showWebhookStatus(userWebhookStatus, err.message, 'error');
@@ -226,7 +226,7 @@ sendBothWebhookBtn.addEventListener('click', async () => {
     showWebhookStatus(bothWebhookStatus, 'Sending to webhook...', 'loading');
     
     try {
-        const result = await sendWebhook(url, currentData);
+        const result = await sendWebhook(url, currentData, 'random_user_pokemon');
         showWebhookStatus(bothWebhookStatus, `Successfully sent to webhook! Status: ${result.status}`, 'success');
     } catch (err) {
         showWebhookStatus(bothWebhookStatus, err.message, 'error');
