@@ -118,19 +118,52 @@ app.get('/api/users/random', (req, res) => {
   });
 });
 
-// 3. Random Pokemon endpoint
-app.get('/api/pokemon/random', (req, res) => {
-  console.log('Random Pokemon');
-  const pokemon = getRandomItem(pokemonList);
+// 3. Get all Pokemon endpoint
+app.get('/api/pokemon', (req, res) => {
+  console.log('Get all Pokemon');
   
-  if(!pokemon) {
+  if (!pokemonList || pokemonList.length === 0) {
     return res.status(404).json({
       success: false,
       message: 'No Pokemon found',
       count: 0,
+      pokemon: []
+    });
+  }
+  
+  return res.status(200).json({
+    success: true,
+    message: 'Pokemon found',
+    count: pokemonList.length,
+    pokemon: pokemonList
+  });
+});
+
+// 4. Get Pokemon by ID endpoint
+app.get('/api/pokemon/:id', (req, res) => {
+  console.log('Get Pokemon by ID:', req.params.id);
+  const pokemonId = parseInt(req.params.id);
+  
+  if (isNaN(pokemonId)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Invalid Pokemon ID',
+      count: 0,
       pokemon: null
     });
   }
+  
+  const pokemon = pokemonList.find(p => p.id === pokemonId);
+  
+  if (!pokemon) {
+    return res.status(404).json({
+      success: false,
+      message: 'Pokemon not found',
+      count: 0,
+      pokemon: null
+    });
+  }
+  
   return res.status(200).json({
     success: true,
     message: 'Pokemon found',
@@ -234,7 +267,8 @@ app.listen(PORT, () => {
   console.log(`Health check: http://localhost:${PORT}/api/health`);
   console.log(`Authentication: POST http://localhost:${PORT}/api/auth`);
   console.log(`Random users: GET http://localhost:${PORT}/api/users/random`);
-  console.log(`Random Pokemon: GET http://localhost:${PORT}/api/pokemon/random`);
+  console.log(`All Pokemon: GET http://localhost:${PORT}/api/pokemon`);
+  console.log(`Pokemon by ID: GET http://localhost:${PORT}/api/pokemon/:id`);
   console.log(`Webhook proxy: POST http://localhost:${PORT}/api/webhook`);
 });
 

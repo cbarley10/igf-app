@@ -5,8 +5,7 @@ const API_BASE_URL = window.location.hostname === 'localhost'
 
 // DOM elements
 const getUserBtn = document.getElementById('getUserBtn');
-const getPokemonBtn = document.getElementById('getPokemonBtn');
-const getBothBtn = document.getElementById('getBothBtn');
+const getAllPokemonBtn = document.getElementById('getAllPokemonBtn');
 const loading = document.getElementById('loading');
 const results = document.getElementById('results');
 const output = document.getElementById('output');
@@ -15,13 +14,9 @@ const errorMessage = document.getElementById('errorMessage');
 
 // Webhook DOM elements
 const userWebhookSection = document.getElementById('userWebhookSection');
-const bothWebhookSection = document.getElementById('bothWebhookSection');
 const userWebhookUrl = document.getElementById('userWebhookUrl');
-const bothWebhookUrl = document.getElementById('bothWebhookUrl');
 const sendUserWebhookBtn = document.getElementById('sendUserWebhookBtn');
-const sendBothWebhookBtn = document.getElementById('sendBothWebhookBtn');
 const userWebhookStatus = document.getElementById('userWebhookStatus');
-const bothWebhookStatus = document.getElementById('bothWebhookStatus');
 
 // Utility functions
 function showLoading() {
@@ -108,9 +103,9 @@ async function fetchRandomUser() {
     }
 }
 
-async function fetchRandomPokemon() {
+async function fetchAllPokemon() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/pokemon/random`);
+        const response = await fetch(`${API_BASE_URL}/api/pokemon`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -122,6 +117,7 @@ async function fetchRandomPokemon() {
     }
 }
 
+
 // Event handlers
 getUserBtn.addEventListener('click', async () => {
     showLoading();
@@ -130,43 +126,25 @@ getUserBtn.addEventListener('click', async () => {
         showResults({ user });
         // Show webhook section for user data
         userWebhookSection.classList.remove('hidden');
-        bothWebhookSection.classList.add('hidden');
         hideWebhookStatus(userWebhookStatus);
     } catch (err) {
         showError(err.message);
     }
 });
 
-getPokemonBtn.addEventListener('click', async () => {
+getAllPokemonBtn.addEventListener('click', async () => {
     showLoading();
     try {
-        const pokemon = await fetchRandomPokemon();
+        const pokemon = await fetchAllPokemon();
         showResults({ pokemon });
-        // Hide webhook sections for Pokemon only
+        // Hide webhook section for Pokemon data (no webhook for Pokemon)
         userWebhookSection.classList.add('hidden');
-        bothWebhookSection.classList.add('hidden');
     } catch (err) {
         showError(err.message);
     }
 });
 
-getBothBtn.addEventListener('click', async () => {
-    showLoading();
-    try {
-        // Fetch both in parallel for better performance
-        const [user, pokemon] = await Promise.all([
-            fetchRandomUser(),
-            fetchRandomPokemon()
-        ]);
-        showResults({ user, pokemon });
-        // Show webhook section for both data
-        userWebhookSection.classList.add('hidden');
-        bothWebhookSection.classList.remove('hidden');
-        hideWebhookStatus(bothWebhookStatus);
-    } catch (err) {
-        showError(err.message);
-    }
-});
+
 
 // Webhook event handlers
 sendUserWebhookBtn.addEventListener('click', async () => {
@@ -202,38 +180,6 @@ sendUserWebhookBtn.addEventListener('click', async () => {
     }
 });
 
-sendBothWebhookBtn.addEventListener('click', async () => {
-    const url = bothWebhookUrl.value.trim();
-    
-    if (!url) {
-        showWebhookStatus(bothWebhookStatus, 'Please enter a webhook URL', 'error');
-        return;
-    }
-    
-    if (!validateWebhookUrl(url)) {
-        showWebhookStatus(bothWebhookStatus, 'Please enter a valid URL (http:// or https://)', 'error');
-        return;
-    }
-    
-    // Get the current data from the results
-    const currentData = JSON.parse(output.textContent);
-    if (!currentData.user || !currentData.pokemon) {
-        showWebhookStatus(bothWebhookStatus, 'No data available. Please fetch both user and Pokemon data first.', 'error');
-        return;
-    }
-    
-    sendBothWebhookBtn.disabled = true;
-    showWebhookStatus(bothWebhookStatus, 'Sending to webhook...', 'loading');
-    
-    try {
-        const result = await sendWebhook(url, currentData, 'random_user_pokemon');
-        showWebhookStatus(bothWebhookStatus, `Successfully sent to webhook! Status: ${result.status}`, 'success');
-    } catch (err) {
-        showWebhookStatus(bothWebhookStatus, err.message, 'error');
-    } finally {
-        sendBothWebhookBtn.disabled = false;
-    }
-});
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
