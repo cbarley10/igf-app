@@ -237,6 +237,55 @@
                 </div>
             </div>
 
+            <!-- All Users Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-url">/api/users</span>
+                </div>
+                <div class="endpoint-description">
+                    Get all users from the database.
+                </div>
+                
+                <div class="section">
+                    <h4>Success Response (200)</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Users found",
+  "count": 15,
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice Johnson",
+      "email": "alice@klaviyo-igfdemo.com",
+      "age": 28,
+      "city": "New York",
+      "favoritePokemon": 2
+    },
+    {
+      "id": 2,
+      "name": "Bob Smith",
+      "email": "bob@klaviyo-igfdemo.com",
+      "age": 34,
+      "city": "Los Angeles",
+      "favoritePokemon": 1
+    }
+    // ... all 15 users
+  ]
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (404)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "No users found",
+  "count": 0,
+  "users": []
+}</div>
+                </div>
+            </div>
+
             <!-- Random User Endpoint -->
             <div class="endpoint">
                 <div class="endpoint-header">

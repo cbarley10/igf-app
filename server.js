@@ -97,7 +97,34 @@ app.post('/api/auth', (req, res) => {
   }
 });
 
-// 2. Random user data endpoint
+// 2. Get all users endpoint
+app.get('/api/users', (req, res) => {
+  console.log('Get all users');
+  
+  if (!sampleUsers || sampleUsers.length === 0) {
+    return res.status(404).json({
+      success: false,
+      message: 'No users found',
+      count: 0,
+      users: []
+    });
+  }
+  
+  // Add IDs to users for consistency with other endpoints
+  const usersWithIds = sampleUsers.map((user, index) => ({
+    id: index + 1,
+    ...user
+  }));
+  
+  return res.status(200).json({
+    success: true,
+    message: 'Users found',
+    count: usersWithIds.length,
+    users: usersWithIds
+  });
+});
+
+// 3. Random user data endpoint
 app.get('/api/users/random', (req, res) => {
   console.log('Random users');
   const user = generateRandomUser();
@@ -118,7 +145,7 @@ app.get('/api/users/random', (req, res) => {
   });
 });
 
-// 3. Get all Pokemon endpoint
+// 4. Get all Pokemon endpoint
 app.get('/api/pokemon', (req, res) => {
   console.log('Get all Pokemon');
   
@@ -139,7 +166,7 @@ app.get('/api/pokemon', (req, res) => {
   });
 });
 
-// 4. Get Pokemon by ID endpoint
+// 5. Get Pokemon by ID endpoint
 app.get('/api/pokemon/:id', (req, res) => {
   console.log('Get Pokemon by ID:', req.params.id);
   const pokemonId = parseInt(req.params.id);
@@ -266,6 +293,7 @@ app.listen(PORT, () => {
   console.log(`Home: http://localhost:${PORT}/`);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
   console.log(`Authentication: POST http://localhost:${PORT}/api/auth`);
+  console.log(`All users: GET http://localhost:${PORT}/api/users`);
   console.log(`Random users: GET http://localhost:${PORT}/api/users/random`);
   console.log(`All Pokemon: GET http://localhost:${PORT}/api/pokemon`);
   console.log(`Pokemon by ID: GET http://localhost:${PORT}/api/pokemon/:id`);
