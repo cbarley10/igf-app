@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGF App - API Documentation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .api-docs {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .endpoint {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #4f46e5;
+        }
+        
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .method {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+        
+        .method.get {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .method.post {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .endpoint-url {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #f3f4f6;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .endpoint-description {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+        
+        .section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .section h4 {
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+        }
+        
+        .param-table th,
+        .param-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .param-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .param-name {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.875rem;
+        }
+        
+        .param-type {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.2s ease;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .base-url {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+        
+        .base-url strong {
+            color: #1f2937;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="igf-demo.svg" alt="IGF Logo" class="logo">
+            <h1>IGF Demo App - API Documentation</h1>
+            <a href="index.html" class="nav-link">← Back to App</a>
+        </header>
+
+        <main class="api-docs">
+            <div class="base-url">
+                <strong>Base URL:</strong> <span id="baseUrl">http://localhost:3000</span>
+            </div>
+
+            <!-- Health Check Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-url">/api/health</span>
+                </div>
+                <div class="endpoint-description">
+                    Check if the server is running and healthy.
+                </div>
+                
+                <div class="section">
+                    <h4>Response</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Server is running",
+  "timestamp": "2024-01-15T10:30:45.123Z"
+}</div>
+                </div>
+            </div>
+
+            <!-- Authentication Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-url">/api/auth</span>
+                </div>
+                <div class="endpoint-description">
+                    Authenticate a user with username and password.
+                </div>
+                
+                <div class="section">
+                    <h4>Request Body</h4>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="param-name">username</span></td>
+                                <td><span class="param-type">string</span></td>
+                                <td>Yes</td>
+                                <td>User's username</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">password</span></td>
+                                <td><span class="param-type">string</span></td>
+                                <td>Yes</td>
+                                <td>User's password</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h4>Success Response (200)</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Authentication successful",
+  "token": "mock-jwt-token-1705312245123",
+  "user": {
+    "username": "john_doe",
+    "id": 123
+  }
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (400)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "Username and password are required",
+  "token": null,
+  "user": null
+}</div>
+                </div>
+            </div>
+
+            <!-- Random User Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-url">/api/users/random</span>
+                </div>
+                <div class="endpoint-description">
+                    Get a random user from the database.
+                </div>
+                
+                <div class="section">
+                    <h4>Success Response (200)</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "User found",
+  "count": 1,
+  "user": {
+    "id": 1234,
+    "name": "Alice Johnson",
+    "email": "alice@klaviyo-igfdemo.com",
+    "age": 28,
+    "city": "New York",
+    "favoritePokemon": 2
+  }
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (404)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "No user found",
+  "count": 0,
+  "user": null
+}</div>
+                </div>
+            </div>
+
+            <!-- All Pokemon Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-url">/api/pokemon</span>
+                </div>
+                <div class="endpoint-description">
+                    Get all Pokemon from the database.
+                </div>
+                
+                <div class="section">
+                    <h4>Success Response (200)</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Pokemon found",
+  "count": 10,
+  "pokemon": [
+    {
+      "id": 1,
+      "name": "Pikachu",
+      "type": "Electric",
+      "level": 25,
+      "hp": 100
+    },
+    {
+      "id": 2,
+      "name": "Charizard",
+      "type": "Fire/Flying",
+      "level": 50,
+      "hp": 200
+    }
+    // ... all 10 Pokemon
+  ]
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (404)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "No Pokemon found",
+  "count": 0,
+  "pokemon": []
+}</div>
+                </div>
+            </div>
+
+            <!-- Pokemon by ID Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-url">/api/pokemon/:id</span>
+                </div>
+                <div class="endpoint-description">
+                    Get a specific Pokemon by its ID.
+                </div>
+                
+                <div class="section">
+                    <h4>URL Parameters</h4>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="param-name">id</span></td>
+                                <td><span class="param-type">number</span></td>
+                                <td>Yes</td>
+                                <td>Pokemon ID (1-10)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h4>Success Response (200)</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Pokemon found",
+  "count": 1,
+  "pokemon": {
+    "id": 1,
+    "name": "Pikachu",
+    "type": "Electric",
+    "level": 25,
+    "hp": 100
+  }
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (400)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "Invalid Pokemon ID",
+  "count": 0,
+  "pokemon": null
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (404)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "Pokemon not found",
+  "count": 0,
+  "pokemon": null
+}</div>
+                </div>
+            </div>
+
+            <!-- Webhook Proxy Endpoint -->
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-url">/api/webhook</span>
+                </div>
+                <div class="endpoint-description">
+                    Proxy webhook requests to avoid CORS issues. Sends data to external webhook URLs.
+                </div>
+                
+                <div class="section">
+                    <h4>Request Body</h4>
+                    <table class="param-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Type</th>
+                                <th>Required</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="param-name">url</span></td>
+                                <td><span class="param-type">string</span></td>
+                                <td>Yes</td>
+                                <td>Target webhook URL (http:// or https://)</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">payload</span></td>
+                                <td><span class="param-type">object</span></td>
+                                <td>Yes</td>
+                                <td>Data to send to webhook</td>
+                            </tr>
+                            <tr>
+                                <td><span class="param-name">eventType</span></td>
+                                <td><span class="param-type">string</span></td>
+                                <td>No</td>
+                                <td>Event type for metadata</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h4>Success Response (200)</h4>
+                    <div class="code-block">{
+  "success": true,
+  "message": "Webhook sent successfully",
+  "status": 200,
+  "statusText": "OK",
+  "response": "webhook response content"
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (400)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "URL and payload are required",
+  "status": 400,
+  "statusText": "Bad Request",
+  "response": "Missing required fields"
+}</div>
+                </div>
+
+                <div class="section">
+                    <h4>Error Response (500)</h4>
+                    <div class="code-block">{
+  "success": false,
+  "message": "Failed to send webhook",
+  "status": 500,
+  "statusText": "Internal Server Error",
+  "response": "specific error message"
+}</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Update base URL based on environment
+        const baseUrlElement = document.getElementById('baseUrl');
+        const isLocalhost = window.location.hostname === 'localhost';
+        baseUrlElement.textContent = isLocalhost 
+            ? 'http://localhost:3000' 
+            : 'https://igf-app-production.up.railway.app';
+    </script>
+</body>
+</html>
+
