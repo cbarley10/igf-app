@@ -1,7 +1,7 @@
 // Get the API base URL - use the deployed Railway URL or localhost for development
 const API_BASE_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3000' 
-    : 'https://igf-app-production.up.railway.app';
+    : 'https://igf-app.onrender.com/';
 
 // DOM elements
 const getUserBtn = document.getElementById('getUserBtn');
